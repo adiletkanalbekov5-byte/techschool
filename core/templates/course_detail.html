@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+{% block content %}
+<div id="course" class="card"></div>
+
+<script>
+const slug = location.pathname.split('/').filter(Boolean).pop();
+fetch('/api/courses/' + slug + '/')
+  .then(r => r.json())
+  .then(c => {
+    const el = document.getElementById('course');
+    el.innerHTML = `
+      <div class="flex flex-col md:flex-row gap-8">
+        <div class="flex-1 space-y-4">
+          <div class="text-xs uppercase tracking-[0.25em] text-cyan-300">${c.level}</div>
+          <h1 class="text-3xl font-bold">${c.title}</h1>
+          <p class="text-slate-300">${c.description}</p>
+          <div class="flex items-center flex-wrap gap-3 text-sm text-slate-300">
+            <span class="px-3 py-1 rounded-full bg-slate-800 border border-slate-700">Цена: ${c.price} ₸</span>
+            <span class="px-3 py-1 rounded-full bg-slate-800 border border-slate-700">Уроков: ${c.lessons.length}</span>
+          </div>
+          <button id="enroll" class="btn-primary w-full sm:w-fit justify-center">Записаться</button>
+        </div>
+        <div class="w-full md:w-80">
+          <div class="rounded-2xl border border-slate-800 bg-slate-900/70 p-5">
+            <h3 class="text-xl font-semibold mb-3">Программа курса</h3>
+            <ul class="space-y-2 text-slate-200">
+              ${c.lessons.map(l=>`<li class="flex items-start gap-3"><span class="text-cyan-300 font-semibold">${l.order}.</span><span>${l.title}</span></li>`).join('')}
+            </ul>
+          </div>
+        </div>
+      </div>
+    `;
+    document.getElementById('enroll').onclick = async () => {
+      const token = localStorage.getItem('access');
+      const resp = await fetch('/api/enrollments/', {
+        method:'POST',
+        headers:{'Content-Type':'application/json', 'Authorization': token?`Bearer ${token}`:''},
+        body: JSON.stringify({course_id: c.id})
+      });
+      if(resp.ok) alert('Вы записаны!');
+      else alert('Ошибка: ' + (await resp.text()));
+    }
+  });
+</script>
+{% endblock %}

@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="space-y-10">
+  <!-- Hero секция -->
+  <div class="relative overflow-hidden rounded-3xl border border-slate-800/70 bg-gradient-to-r from-slate-900 via-slate-900 to-slate-800 px-8 py-12 shadow-2xl">
+    <div class="absolute inset-0 bg-gradient-to-r from-cyan-500/20 via-violet-500/20 to-transparent blur-3xl"></div>
+    <div class="relative text-center space-y-6">
+      <h1 class="text-4xl md:text-5xl font-extrabold leading-tight">Учись IT онлайн с TechSchool</h1>
+      <p class="text-lg md:text-xl text-slate-300 max-w-3xl mx-auto">Пройди практические курсы по Python, Web‑разработке и Data Science и собери портфолио под менторством экспертов.</p>
+      <div class="flex flex-col sm:flex-row items-stretch sm:items-center justify-center gap-3 sm:gap-4">
+        <a href="/courses/" class="btn-primary sm:w-auto justify-center">Посмотреть курсы</a>
+        <a href="/videos_page/" class="inline-flex items-center justify-center gap-2 px-4 py-3 rounded-lg border border-slate-700 text-slate-200 hover:border-cyan-400 transition w-full sm:w-auto">Смотреть видео</a>
+      </div>
+      <div class="flex justify-center gap-6 text-sm text-slate-400">
+        <span>Гибкий график</span>
+        <span class="opacity-50">•</span>
+        <span>Практические проекты</span>
+        <span class="opacity-50">•</span>
+        <span>Сертификат после обучения</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Популярные курсы -->
+  <div class="space-y-4">
+    <div class="flex items-center justify-between flex-wrap gap-3">
+      <div>
+        <p class="text-sm uppercase tracking-[0.2em] text-cyan-300">ТОП НАПРАВЛЕНИЯ</p>
+        <h2 class="text-3xl font-bold">Популярные курсы</h2>
+      </div>
+      <a href="/courses/" class="text-sm px-4 py-2 rounded-lg border border-slate-700 hover:border-cyan-400 transition">Каталог</a>
+    </div>
+
+    <div class="grid md:grid-cols-3 gap-6">
+      <div class="card space-y-3">
+        <h3 class="text-xl font-semibold">Python для начинающих</h3>
+        <p class="text-slate-300">Изучите основы Python и создайте первые проекты: боты, скрипты, веб‑сервисы.</p>
+        <div class="flex items-center justify-between">
+          <span class="text-sm text-slate-400">Стартовый уровень</span>
+          <a href="/courses/python/" class="btn-primary text-sm px-3 py-2">Подробнее</a>
+        </div>
+      </div>
+      <div class="card space-y-3">
+        <h3 class="text-xl font-semibold">Web-разработка</h3>
+        <p class="text-slate-300">Создайте современные сайты на Django и Tailwind. Подготовьте полноценный кейс.</p>
+        <div class="flex items-center justify-between">
+          <span class="text-sm text-slate-400">Middle-ready за 10 недель</span>
+          <a href="/courses/web/" class="btn-primary text-sm px-3 py-2">Подробнее</a>
+        </div>
+      </div>
+      <div class="card space-y-3">
+        <h3 class="text-xl font-semibold">Data Science</h3>
+        <p class="text-slate-300">Анализ данных, ML-модели, визуализация и пайплайны. Практика в Python.</p>
+        <div class="flex items-center justify-between">
+          <span class="text-sm text-slate-400">NumPy • Pandas • Sklearn</span>
+          <a href="/courses/data-science/" class="btn-primary text-sm px-3 py-2">Подробнее</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}

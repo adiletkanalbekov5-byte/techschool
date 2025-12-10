@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="space-y-4">
+  <p class="text-sm uppercase tracking-[0.2em] text-cyan-300">Все направления</p>
+  <h2 class="text-3xl font-semibold">Каталог курсов</h2>
+</div>
+
+<div id="courses" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+
+<script>
+fetch('/api/courses/')
+  .then(r => r.json())
+  .then(data => {
+    const el = document.getElementById('courses');
+    data.forEach(c => {
+      el.insertAdjacentHTML('beforeend', `
+        <div class="card space-y-3 h-full flex flex-col justify-between">
+          <div>
+            <div class="text-xs uppercase tracking-[0.2em] text-cyan-300 mb-2">${c.level}</div>
+            <h3 class="text-xl font-bold mb-2"><a href="/courses/${c.slug}/" class="hover:text-cyan-200 transition">${c.title}</a></h3>
+            <p class="text-slate-300 mb-2">${c.short || c.description.slice(0,110)}...</p>
+          </div>
+          <div class="flex items-center justify-between text-sm text-slate-300 gap-3">
+            <span class="font-semibold text-cyan-300">${c.price} ₸</span>
+            <a href="/courses/${c.slug}/" class="btn-primary text-sm px-3 py-2 sm:w-auto justify-center">Подробнее</a>
+          </div>
+        </div>
+      `);
+    });
+  });
+</script>
+{% endblock %}

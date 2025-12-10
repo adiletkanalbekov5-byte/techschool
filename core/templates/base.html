@@ -1,0 +1,152 @@
+{% load static i18n %}
+{% get_current_language as LANGUAGE_CODE %}
+<!DOCTYPE html>
+<html lang="{{ LANGUAGE_CODE }}">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TechSchool</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>tailwind.config = { darkMode: 'class' }</script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{% static 'css/main.css' %}">
+</head>
+<body class="text-slate-100 antialiased">
+  <div class="page-shell">
+    <!-- HEADER -->
+    <header class="sticky top-0 z-40 backdrop-blur bg-slate-900/70 border-b border-slate-800/60">
+      <div class="max-w-6xl mx-auto px-4 py-4 flex items-center justify-between">
+        <a href="/" class="text-2xl font-extrabold tracking-tight flex items-center gap-2">
+          <span class="inline-flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-r from-cyan-400 to-violet-500 text-slate-900 font-black shadow-lg">TS</span>
+          <span>TechSchool</span>
+        </a>
+
+        <!-- DESKTOP MENU -->
+        <nav class="hidden md:flex items-center space-x-6 text-sm font-medium">
+          <a class="hover:text-cyan-300 transition-colors" href="/courses/">{% trans "Курсы" %}</a>
+          <a class="hover:text-cyan-300 transition-colors" href="/videos_page/">{% trans "Видео уроки" %}</a>
+          <a class="hover:text-cyan-300 transition-colors" href="/teacher_profile/">{% trans "Профиль учителя" %}</a>
+          <a class="hover:text-cyan-300 transition-colors" href="/director_profile/">{% trans "Профиль директора" %}</a>
+          <a class="hover:text-cyan-300 transition-colors" href="/swagger/">{% trans "API" %}</a>
+          <button id="theme-toggle" class="ml-2 p-2 rounded-full bg-slate-800 text-slate-100 border border-slate-700 hover:border-cyan-400 transition">
+            <svg id="theme-icon" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-yellow-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m8.66-12.34l-.707.707M4.05 19.95l-.707.707M21 12h-1M4 12H3m16.66 4.66l-.707-.707M4.05 4.05l-.707-.707M12 5a7 7 0 100 14 7 7 0 000-14z"/>
+            </svg>
+          </button>
+          <form action="" method="get" class="flex items-center gap-1">
+            <select name="lang" onchange="this.form.submit()" class="bg-slate-900 border border-slate-700 rounded px-2 py-1 text-xs">
+              <option value="ru" {% if LANGUAGE_CODE == "ru" %}selected{% endif %}>{% trans "Русский" %}</option>
+              <option value="ky" {% if LANGUAGE_CODE == "ky" %}selected{% endif %}>{% trans "Кыргызча" %}</option>
+            </select>
+          </form>
+        </nav>
+
+        <!-- MOBILE MENU -->
+        <div class="md:hidden flex items-center gap-2">
+          <button id="theme-toggle-mobile" class="p-2 rounded-full bg-slate-800 text-slate-100 border border-slate-700 hover:border-cyan-400 transition">
+            <svg id="theme-icon-mobile" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-yellow-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m8.66-12.34l-.707.707M4.05 19.95l-.707.707M21 12h-1M4 12H3m16.66 4.66l-.707-.707M4.05 4.05l-.707-.707M12 5a7 7 0 100 14 7 7 0 000-14z"/>
+            </svg>
+          </button>
+          <button id="menu-toggle" class="p-2 rounded-lg bg-slate-800 text-slate-100 border border-slate-700">☰</button>
+        </div>
+      </div>
+      <div id="mobile-menu" class="md:hidden px-4 pb-4 hidden">
+        <div class="rounded-2xl border border-slate-800 bg-slate-900/80 shadow-xl divide-y divide-slate-800">
+          <a href="/courses/" class="block px-4 py-3 hover:bg-slate-800/60">{% trans "Курсы" %}</a>
+          <a href="/videos_page/" class="block px-4 py-3 hover:bg-slate-800/60">{% trans "Видео уроки" %}</a>
+          <a href="/teacher_profile/" class="block px-4 py-3 hover:bg-slate-800/60">{% trans "Профиль учителя" %}</a>
+          <a href="/director_profile/" class="block px-4 py-3 hover:bg-slate-800/60">{% trans "Профиль директора" %}</a>
+          <a href="/swagger/" class="block px-4 py-3 hover:bg-slate-800/60">{% trans "API" %}</a>
+          <div class="px-4 py-3">
+            <label class="text-xs text-slate-400 block mb-1">{% trans "Язык" %}</label>
+            <select id="lang-mobile" class="w-full bg-slate-900 border border-slate-700 rounded px-2 py-2 text-sm">
+              <option value="ru" {% if LANGUAGE_CODE == "ru" %}selected{% endif %}>{% trans "Русский" %}</option>
+              <option value="ky" {% if LANGUAGE_CODE == "ky" %}selected{% endif %}>{% trans "Кыргызча" %}</option>
+            </select>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- MAIN CONTENT -->
+    <main class="max-w-6xl mx-auto px-4 py-10 space-y-10">
+      {% block content %}{% endblock %}
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="border-t border-slate-800/60 bg-slate-900/60 backdrop-blur text-center text-slate-300 py-6">
+      © 2025 TechSchool • Обучаем IT-профессиям онлайн
+    </footer>
+  </div>
+
+  <!-- SCRIPTS -->
+  <script>
+    const html = document.documentElement;
+    const themeBtn = document.getElementById('theme-toggle');
+    const themeIcon = document.getElementById('theme-icon');
+    const themeBtnMobile = document.getElementById('theme-toggle-mobile');
+    const themeIconMobile = document.getElementById('theme-icon-mobile');
+    const menuBtn = document.getElementById('menu-toggle');
+    const mobileMenu = document.getElementById('mobile-menu');
+  const localeSelectDesktop = document.querySelector('select[name="lang"]');
+  const localeSelectMobile = document.getElementById('lang-mobile');
+
+    const savedTheme = localStorage.getItem('theme');
+
+    function setSunIcon(svg){
+      svg.innerHTML='<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m8.66-12.34l-.707.707M4.05 19.95l-.707.707M21 12h-1M4 12H3m16.66 4.66l-.707-.707M4.05 4.05l-.707-.707M12 5a7 7 0 100 14 7 7 0 000-14z"/>';
+      svg.classList.remove('text-gray-300');
+      svg.classList.add('text-yellow-400');
+    }
+    function setMoonIcon(svg){
+      svg.innerHTML='<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12.79A9 9 0 1111.21 3a7 7 0 009.79 9.79z"/>';
+      svg.classList.remove('text-yellow-400');
+      svg.classList.add('text-gray-300');
+    }
+
+    if(savedTheme === 'dark'){
+      html.classList.add('dark');
+      setMoonIcon(themeIcon);
+      setMoonIcon(themeIconMobile);
+    } else {
+      setSunIcon(themeIcon);
+      setSunIcon(themeIconMobile);
+    }
+
+    function toggleTheme(svgD, svgM){
+      html.classList.toggle('dark');
+      const isDark = html.classList.contains('dark');
+      localStorage.setItem('theme', isDark ? 'dark' : 'light');
+      svgD.classList.add('rotate-180');
+      svgM.classList.add('rotate-180');
+      setTimeout(()=>{
+        svgD.classList.remove('rotate-180');
+        svgM.classList.remove('rotate-180');
+      }, 500);
+      if(isDark){ setMoonIcon(svgD); setMoonIcon(svgM); } else { setSunIcon(svgD); setSunIcon(svgM); }
+    }
+
+    themeBtn.addEventListener('click', ()=>toggleTheme(themeIcon, themeIconMobile));
+    themeBtnMobile.addEventListener('click', ()=>toggleTheme(themeIcon, themeIconMobile));
+    menuBtn.addEventListener('click', ()=>{
+      mobileMenu.classList.toggle('hidden');
+    });
+
+    // сохраняем выбранный язык в query-параметре ?lang=
+    function handleLocaleChange(select){
+      const lang = select.value;
+      const url = new URL(window.location.href);
+      url.searchParams.set('lang', lang);
+      window.location.href = url.toString();
+    }
+
+    if(localeSelectDesktop){
+      localeSelectDesktop.addEventListener('change', ()=>handleLocaleChange(localeSelectDesktop));
+    }
+    if(localeSelectMobile){
+      localeSelectMobile.addEventListener('change', ()=>handleLocaleChange(localeSelectMobile));
+    }
+  </script>
+</body>
+</html>

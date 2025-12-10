@@ -1,0 +1,105 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="space-y-6">
+  <div class="flex flex-wrap items-center justify-between gap-3">
+    <div>
+      <p class="text-sm uppercase tracking-[0.2em] text-cyan-300">Добавить студента</p>
+      <h1 class="text-2xl md:text-3xl font-bold">В группу учителя</h1>
+    </div>
+    <a href="/teacher_profile/" class="text-sm px-4 py-2 rounded-lg border border-slate-700 hover:border-cyan-400 transition">Назад в профиль</a>
+  </div>
+
+  <div class="card space-y-4">
+    <div class="grid md:grid-cols-3 gap-4">
+      <div>
+        <label class="block text-sm text-slate-300 mb-1">Группа</label>
+        <select id="group-select" class="w-full bg-slate-900 border border-slate-700 rounded px-3 py-2 text-sm"></select>
+      </div>
+      <div>
+        <label class="block text-sm text-slate-300 mb-1">ID студента</label>
+        <input id="student-id-input" type="number" class="w-full bg-slate-900 border border-slate-700 rounded px-3 py-2 text-sm" placeholder="Напр. 5">
+      </div>
+      <div class="flex items-end">
+        <button id="add-student-btn" class="btn-primary w-full justify-center">Добавить</button>
+      </div>
+    </div>
+    <div id="status" class="text-sm text-slate-300"></div>
+  </div>
+</section>
+
+<script>
+  const pathParts = location.pathname.split('/').filter(Boolean);
+  const teacherId = Number(pathParts[pathParts.length - 2]) || null;
+  const selectEl = document.getElementById('group-select');
+  const studentInput = document.getElementById('student-id-input');
+  const statusEl = document.getElementById('status');
+  const btn = document.getElementById('add-student-btn');
+
+  function getCookie(name) {
+    const value = `; ${document.cookie}`;
+    const parts = value.split(`; ${name}=`);
+    if (parts.length === 2) return parts.pop().split(';').shift();
+    return '';
+  }
+
+  function setStatus(msg, isError=false){
+    statusEl.textContent = msg;
+    statusEl.classList.remove('text-red-300','text-emerald-300');
+    statusEl.classList.add(isError ? 'text-red-300' : 'text-emerald-300');
+  }
+
+  async function loadGroups(){
+    selectEl.innerHTML = '<option>Загрузка...</option>';
+    const resp = await fetch('/api/groups/');
+    if(!resp.ok){ setStatus('Не удалось загрузить группы', true); return; }
+    const data = await resp.json();
+    const mine = teacherId ? data.filter(g=>g.teacher && g.teacher.id === teacherId) : data;
+    if(!mine.length){
+      selectEl.innerHTML = '<option value="">Нет групп</option>';
+      return;
+    }
+    selectEl.innerHTML = mine.map(g=>`<option value="${g.id}" data-students='${JSON.stringify(g.student_ids_read||[])}'>${g.name} (#${g.id})</option>`).join('');
+  }
+
+  btn.addEventListener('click', async ()=>{
+    const groupId = Number(selectEl.value);
+    const studentId = Number(studentInput.value);
+    if(!groupId){ setStatus('Выберите группу', true); return; }
+    if(!studentId){ setStatus('Укажите ID студента', true); return; }
+
+    const selectedOpt = selectEl.selectedOptions[0];
+    const currentIds = JSON.parse(selectedOpt.getAttribute('data-students') || '[]');
+    if(currentIds.includes(studentId)){
+      setStatus('Студент уже в группе', true);
+      return;
+    }
+    const newIds = [...currentIds, studentId];
+
+    const headers = {
+      'Content-Type':'application/json',
+      'X-CSRFToken': getCookie('csrftoken')
+    };
+    const token = localStorage.getItem('access');
+    if(token) headers['Authorization'] = `Bearer ${token}`;
+
+    const resp = await fetch(`/api/groups/${groupId}/`, {
+      method:'PATCH',
+      headers,
+      credentials:'include',
+      body: JSON.stringify({ student_ids: newIds, teacher_id: teacherId })
+    });
+
+    if(!resp.ok){
+      const txt = await resp.text();
+      setStatus('Ошибка: ' + txt, true);
+      return;
+    }
+    setStatus('Студент добавлен');
+    studentInput.value = '';
+    await loadGroups();
+  });
+
+  loadGroups();
+</script>
+{% endblock %}
+

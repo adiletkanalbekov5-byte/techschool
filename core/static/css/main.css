@@ -1,0 +1,134 @@
+/* Глобальная палитра и фон */
+html, body {
+  margin: 0;
+  width: 100%;
+  overflow-x: hidden;
+}
+
+body {
+  font-family: 'Inter', system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  background: radial-gradient(circle at 10% 20%, rgba(56,189,248,0.12), transparent 30%),
+              radial-gradient(circle at 90% 10%, rgba(167,139,250,0.12), transparent 28%),
+              radial-gradient(circle at 20% 80%, rgba(52,211,153,0.08), transparent 26%),
+              #0f111a;
+  color: #e4e6eb;
+  line-height: 1.7;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.page-shell {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+main {
+  flex: 1 1 auto;
+}
+
+/* Ссылки */
+a {
+  color: #7dd3fc;
+  text-decoration: none;
+  transition: color 0.25s ease, text-decoration 0.25s ease;
+}
+
+a:hover, a:focus-visible {
+  color: #38bdf8;
+  text-decoration: underline;
+}
+
+/* Карточки */
+.card {
+  background: linear-gradient(145deg, rgba(31,41,55,0.9), rgba(17,24,39,0.92));
+  border: 1px solid rgba(148,163,184,0.14);
+  border-radius: 18px;
+  padding: 1.5rem;
+  box-shadow: 0 15px 40px rgba(0,0,0,0.45);
+  backdrop-filter: blur(6px);
+  transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-6px);
+  border-color: rgba(56,189,248,0.4);
+  box-shadow: 0 25px 60px rgba(0,0,0,0.55);
+}
+
+/* Кнопки */
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.35rem;
+  background: linear-gradient(120deg, #22d3ee, #a855f7);
+  color: #0b1220;
+  font-weight: 700;
+  padding: 0.7rem 1.1rem;
+  border-radius: 12px;
+  box-shadow: 0 12px 30px rgba(34,211,238,0.22);
+  transition: transform 0.22s ease, box-shadow 0.22s ease, filter 0.22s ease;
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px) scale(1.01);
+  box-shadow: 0 15px 40px rgba(168,85,247,0.32);
+  filter: brightness(1.05);
+}
+
+/* Таблицы */
+.table-surface {
+  background: rgba(15,17,26,0.75);
+  border: 1px solid rgba(148,163,184,0.12);
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 15px 35px rgba(0,0,0,0.4);
+}
+
+.table-surface th {
+  background: linear-gradient(120deg, rgba(34,197,235,0.18), rgba(168,85,247,0.16));
+  color: #e5e7eb;
+  font-weight: 700;
+}
+
+.table-surface td, .table-surface th {
+  border-color: rgba(71,85,105,0.35);
+  word-break: break-word;
+  white-space: normal;
+}
+
+.table-surface table {
+  width: 100%;
+  table-layout: fixed;
+}
+
+img, video {
+  max-width: 100%;
+  height: auto;
+}
+
+@media (max-width: 640px) {
+  body {
+    line-height: 1.6;
+  }
+  .card {
+    padding: 1.25rem;
+  }
+  .btn-primary {
+    width: 100%;
+  }
+  .table-surface th,
+  .table-surface td {
+    padding: 0.65rem 0.75rem;
+    font-size: 0.95rem;
+  }
+}
+
+/* Темная тема */
+.dark body {
+  background-color: #0b0c14;
+  color: #e0e0e0;
+}
+
+.dark a { color: #38bdf8; }
+.dark a:hover, .dark a:focus-visible { color: #0ea5e9; }

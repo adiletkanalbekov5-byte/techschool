@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="space-y-6">
+  <div class="flex flex-wrap items-center justify-between gap-4">
+    <div>
+      <p class="text-sm uppercase tracking-[0.2em] text-cyan-300">Бесплатные уроки</p>
+      <h2 class="text-3xl font-semibold">Видео-материалы</h2>
+    </div>
+    <p class="text-slate-300">Смотрите мини-лекции и практику по ключевым темам.</p>
+  </div>
+
+  <div id="videos-grid" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+    <!-- Заполняется скриптом -->
+  </div>
+</section>
+
+<!-- Модальное окно -->
+<div id="video-modal" class="fixed inset-0 bg-black/80 flex items-center justify-center hidden z-50">
+  <div class="bg-slate-900 rounded-2xl border border-slate-800 shadow-2xl w-11/12 md:w-3/4 lg:w-1/2 p-5 relative">
+    <button id="close-modal" class="absolute top-3 right-3 text-slate-200 text-2xl font-bold">&times;</button>
+    <video id="modal-video" controls class="w-full rounded-lg shadow-lg">
+      <source src="" type="video/mp4">
+      Ваш браузер не поддерживает видео.
+    </video>
+  </div>
+</div>
+
+<script>
+  const modal = document.getElementById('video-modal');
+  const modalVideo = document.getElementById('modal-video');
+  const closeModal = document.getElementById('close-modal');
+  const grid = document.getElementById('videos-grid');
+
+  const videos = [
+    { title:'Python: основы синтаксиса', duration:'12 мин', src:'/media/sample-video.mp4' },
+    { title:'Django: быстрый старт', duration:'9 мин', src:'/media/sample-video.mp4' },
+    { title:'Tailwind: верстка за 15 минут', duration:'15 мин', src:'/media/sample-video.mp4' },
+    { title:'Pandas: обработка CSV', duration:'8 мин', src:'/media/sample-video.mp4' },
+    { title:'API: REST концепции', duration:'10 мин', src:'/media/sample-video.mp4' },
+    { title:'Git: базовые команды', duration:'6 мин', src:'/media/sample-video.mp4' },
+  ];
+
+  videos.forEach(v => {
+    grid.insertAdjacentHTML('beforeend', `
+      <article class="card space-y-3 cursor-pointer" onclick="openVideo('${v.src}')">
+        <div class="aspect-video rounded-xl bg-slate-800 border border-slate-700 flex items-center justify-center text-slate-500 text-sm">Превью</div>
+        <div class="space-y-1">
+          <h3 class="text-lg font-semibold">${v.title}</h3>
+          <p class="text-slate-300 text-sm">Длительность: ${v.duration}</p>
+        </div>
+      </article>
+    `);
+  });
+
+  function openVideo(src) {
+    modalVideo.src = src;
+    modal.classList.remove('hidden');
+  }
+
+  closeModal.addEventListener('click', () => {
+    modal.classList.add('hidden');
+    modalVideo.pause();
+    modalVideo.src = '';
+  });
+</script>
+{% endblock %}

@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="space-y-8">
+  <div class="flex flex-wrap items-center justify-between gap-4">
+    <div>
+      <p class="text-sm uppercase tracking-[0.2em] text-cyan-300">Контроль школы</p>
+      <h2 class="text-2xl md:text-3xl font-bold">Панель директора</h2>
+    </div>
+    <a href="/swagger/" class="btn-primary text-sm px-3 py-2">API</a>
+  </div>
+
+  <div class="grid md:grid-cols-3 gap-6">
+    <div class="card text-center space-y-2">
+      <h3 class="text-xl font-semibold text-slate-200">Курсы</h3>
+      <p class="text-3xl font-extrabold text-cyan-300">15</p>
+      <p class="text-sm text-slate-400">в активной продаже</p>
+    </div>
+    <div class="card text-center space-y-2">
+      <h3 class="text-xl font-semibold text-slate-200">Ученики</h3>
+      <p class="text-3xl font-extrabold text-emerald-300">320</p>
+      <p class="text-sm text-slate-400">активных студентов</p>
+    </div>
+    <div class="card text-center space-y-2">
+      <h3 class="text-xl font-semibold text-slate-200">Преподаватели</h3>
+      <p class="text-3xl font-extrabold text-violet-300">12</p>
+      <p class="text-sm text-slate-400">в штате</p>
+    </div>
+  </div>
+
+  <div class="space-y-3">
+    <h3 class="text-xl font-semibold">Учителя</h3>
+    <div class="grid sm:grid-cols-2 md:grid-cols-4 gap-4">
+      <div class="card flex flex-col items-center gap-2 text-center">
+        <img src="/static/teacher.jpg" alt="Учитель" class="w-20 h-20 rounded-full border border-slate-700">
+        <span class="font-semibold">Иван Иванов</span>
+        <a href="/teacher_profile/1" class="btn-primary text-sm px-3 py-2 sm:w-auto justify-center">Перейти</a>
+      </div>
+      <div class="card flex flex-col items-center gap-2 text-center">
+        <img src="/static/teacher2.jpg" alt="Учитель" class="w-20 h-20 rounded-full border border-slate-700">
+        <span class="font-semibold">Мария Петрова</span>
+        <a href="/teacher_profile/2" class="btn-primary text-sm px-3 py-2 sm:w-auto justify-center">Перейти</a>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}
