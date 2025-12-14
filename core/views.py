@@ -2,15 +2,29 @@
 from rest_framework import viewsets, permissions, status
 from rest_framework.decorators import action
 from rest_framework.response import Response
-
-from .models import Course, Lesson, Enrollment, Certificate,  TeacherProfile, DirectorProfile, StudentGroup, JournalEntry, VideoLesson
+from django.contrib.auth.models import User
+from .models import Course, Lesson, Enrollment, Certificate, TeacherProfile, DirectorProfile, StudentGroup, JournalEntry, VideoLesson
+from .models import Application
 from .serializers import (
     CourseListSerializer, CourseDetailSerializer,
     LessonSerializer, EnrollmentSerializer, CertificateSerializer,
     TeacherProfileSerializer, DirectorProfileSerializer, StudentGroupSerializer,
-    JournalEntrySerializer, VideoLessonSerializer
+    JournalEntrySerializer, VideoLessonSerializer,UserSerializer, ApplicationSerializer
 )
+# Только для админов
+class AdminPermission(permissions.BasePermission):
+    def has_permission(self, request, view):
+        return request.user and request.user.is_staff
 
+class AdminApplicationViewSet(viewsets.ModelViewSet):
+    queryset = Application.objects.order_by('-created_at')
+    serializer_class = ApplicationSerializer
+    permission_classes = [AdminPermission]
+
+class AdminUserViewSet(viewsets.ModelViewSet):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+    permission_classes = [AdminPermission]
 class CourseViewSet(viewsets.ModelViewSet):
     queryset = Course.objects.all().prefetch_related("lessons")
     lookup_field = "slug"

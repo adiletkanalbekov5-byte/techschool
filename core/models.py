@@ -3,7 +3,21 @@ from django.conf import settings
 from django.db import models
 from django.utils import timezone
 from django.contrib.auth.models import AbstractUser
-User = settings.AUTH_USER_MODEL
+from django.contrib.auth import get_user_model
+
+User = get_user_model()
+
+class Application(models.Model):
+    user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
+    full_name = models.CharField(max_length=200)
+    email = models.EmailField()
+    phone = models.CharField(max_length=50, blank=True)
+    course = models.CharField(max_length=200, blank=True)
+    message = models.TextField(blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.full_name} — {self.course}"
 
 class Course(models.Model):
     LEVELS = (("BEG","Beginner"), ("MID","Middle"), ("PRO","Pro"))

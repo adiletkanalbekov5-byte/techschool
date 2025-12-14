@@ -9,15 +9,20 @@ from .models import (Course,
                      DirectorProfile,
                      StudentGroup,
                      JournalEntry,
-                     VideoLesson)
+                     VideoLesson,
+                     Application)
 
 User = get_user_model()
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ["id", "username", "email", "first_name", "last_name"]
-
+        fields = ['id','username','email','is_staff','is_active']
+class ApplicationSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Application
+        fields = '__all__'
+        read_only_fields = ('created_at','user')
 class LessonSerializer(serializers.ModelSerializer):
     class Meta:
         model = Lesson
